@@ -7,10 +7,10 @@ try {
 }
 
 class Receta{    
-    public $nombre = "";
+    public $nombre;
     public $dificultad;
     public $tiempo;
-    public $nombreartistico_chef = "";       
+    public $nombreartistico_chef;       
     
     public function setNombre($str){
         $str = strtolower($str);
@@ -18,10 +18,11 @@ class Receta{
     }
     
     public function setChef($str){
-        strtolower($str);
+        $str = strtolower($str);
         $this->nombreartistico_chef = ucfirst($str);
     }
 }
+
 
 $matriz = [];
 $fila = new Receta();
@@ -45,7 +46,8 @@ while ($row = $res->fetch(PDO::FETCH_ASSOC)){
     
     array_push($matriz, $fila);
     $i = 0;
-    unset($fila);   
+    unset($fila);
+    $fila = new Receta();  
 }
 
 //var_dump($matriz);
