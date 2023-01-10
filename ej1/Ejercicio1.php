@@ -5,25 +5,50 @@ try {
 } catch (PDOException $exc) {
     die("ERROR: " . $exc->getCode() . "<br>"  . $exc->getMessage());
 }
-$columnas = ["nombre", "dificultad", "tiempo", "nombreartistico_chef"];
+
+class Receta{    
+    public $nombre = "";
+    public $dificultad;
+    public $tiempo;
+    public $nombreartistico_chef = "";       
+    
+    public function setNombre($str){
+        $str = strtolower($str);
+        $this->nombre = ucfirst($str);
+    }
+    
+    public function setChef($str){
+        strtolower($str);
+        $this->nombreartistico_chef = ucfirst($str);
+    }
+}
+
 $matriz = [];
+$fila = new Receta();
 
 $consulta = "SELECT nombre, dificultad, tiempo, (SELECT nombreartistico FROM chef where codigo = receta.cod_chef) as nombreartistico_chef FROM receta";
 $res = $pdo->prepare($consulta);
 $res->execute();
 
-
-
-foreach ($columnas as $col){
-    $res->bindColumn($col, $matriz[]);
+$i=0;
+while ($row = $res->fetch(PDO::FETCH_ASSOC)){
+    
+    foreach ($fila as $key => &$prop) {
+        if ($key == 'nombre'){
+            $fila->setNombre($row[$key]);
+        }else if($key == 'nombreartistico_chef'){
+            $fila->setChef($row[$key]);
+        }else{
+            $prop = $row[$key];
+        }
+    }
+    
+    array_push($matriz, $fila);
+    $i = 0;
+    unset($fila);   
 }
 
-
-/*if ($res = $pdo->prepare($consulta)){
-    $res->bindColumn('nombreReceta', $res)
-    //$matriz = $res->fetchAll(PDO::FETCH_ASSOC);    
-}*/
-
+//var_dump($matriz);
 unset($consulta);
 unset($pdo);
 ?>
@@ -45,14 +70,14 @@ unset($pdo);
             </tr>
             
         <?php 
-        while($res->fetch(PDO::FETCH_BOUND)){
-            //foreach ($matriz as $fila) {
+        if(isset($matriz)){
+            foreach ($matriz as $fila) {
                 echo("<tr>");
-                foreach ($matriz as $data) {
+                foreach ($fila as $data) {
                     echo("<td>" . $data . "</td>");
                 }
                 echo("</tr>");
-            //}
+            }
         }
               
         ?>
