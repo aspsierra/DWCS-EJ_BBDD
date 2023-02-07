@@ -97,9 +97,6 @@ if (!isset($_GET['idReceta']) & !isset($_GET['nombreReceta'])) {
 
     $res = $pdo->prepare($consulta);
     $res->execute();
-
-    $i = 0;
-
     $recetaDetallada = new RecetaDetalles();
 
     $recetaDetallada->nombre = $_GET["nombreReceta"];
