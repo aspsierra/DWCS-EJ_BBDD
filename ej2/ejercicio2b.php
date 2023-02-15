@@ -53,7 +53,7 @@ if (!isset($_GET['idChef'])) {
             array_push($arChefs, $fila);
         }
     }
-} else{
+} else {
 
     $consChef = "SELECT * FROM chef WHERE codigo = " . $_GET['idChef'];
     if ($resChef = $pdo->query($consChef)) {
@@ -79,29 +79,29 @@ if (!isset($_GET['idChef'])) {
                 header('Location:ejercicio2b.php');
                 break;
             case 'Actualizar':
-                
-                var_dump($_POST['surn'][0]);
+
+                var_dump($_POST);
                 var_dump($_GET);
                 $consActualizar = "UPDATE chef SET "
-                    . "nombre = :nombre, apellido1 = :apellido1, apellido2 = :apellido2"
-                    . "nombreartistico = :alias, sexo = :sexo,"
-                    . "fecha_nacimiento = :fecha, localidad = :localidad"
-                    . "cod_provincia = :provincia WHERE codigo = " . $_GET['idChef'];
-                
+                        . "nombre = :nombre, apellido1 = :apellido1, apellido2 = :apellido2"
+                        . "nombreartistico = :alias, sexo = :sexo,"
+                        . "fecha_nacimiento = :fecha, localidad = :localidad"
+                        . "cod_provincia = :provincia*/. WHERE codigo = " . $_GET['idChef'];
+
                 $update = $pdo->prepare($consActualizar);
                 $update->bindValue(':nombre', $_POST['name'], PDO::PARAM_STR);
                 $update->bindValue(':apellido1', $_POST['surn'][0], PDO::PARAM_STR);
-                $update->bindValue(':apellido2', $_POST['surn'][0], PDO::PARAM_STR);
+                $update->bindValue(':apellido2', $_POST['surn'][1], PDO::PARAM_STR);
                 $update->bindValue(':alias', $_POST['alias'], PDO::PARAM_STR);
                 $update->bindValue(':sexo', $_POST['sex'], PDO::PARAM_STR);
                 $update->bindValue(':fecha', $_POST['bdate'], PDO::PARAM_STR);
                 $update->bindValue(':localidad', $_POST['city'], PDO::PARAM_STR);
                 $update->bindValue(':provincia', $_POST['province'], PDO::PARAM_INT);
-                
+
                 $resUpdate = $update->execute();
-    
-               header('refresh:ejercicio2b.php?idChef='.$_GET['idChef']);
-                
+
+                header('refresh:ejercicio2b.php?idChef=' . $_GET['idChef']);
+
                 unset($resUpdate);
                 break;
             case 'delete':
@@ -167,59 +167,59 @@ unset($pdo);
             <h1>EDITAR COCINERO</h1>
             <form action="" method="POST">
                 <table class="edicion">
-                        <tr>
-                            <td> <label for="id">Código:</label></td>
-                            <td><input disabled type="number" name="id" id="id" value="<?php echo $editChef->id ?>"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="name">Nombre:</label></td>
-                            <td><input type="text" name="name" id="name" value="<?php echo $editChef->nombre ?>"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="surn">Apellidos:</label></td>
-                            <td><input type="text" name="surn[]" id="" value="<?php echo $editChef->apellido1 ?>"></td>
-                            <td><input type="text" name="surn[]" id="" value="<?php echo $editChef->apellido2 ?>"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="alias">Nombre Artístico:</label></td>
-                            <td><input type="text" name="alias" id="alias" value="<?php echo $editChef->nombreArtistico ?>"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="sex">Sexo:</label></td>
-                            <td>
-                                <select name="sex" id="sex">
-                                    <option value="H" <?php echo compruebaOptions("H", $editChef->sexo) ?>>Hombre</option>
-                                    <option value="M" <?php echo compruebaOptions("M", $editChef->sexo) ?>>Mujer</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="bdate">Feche de nacimiento:</label></td>
-                            <td><input type="date" name="bdate" id="bdate" value="<?php echo $editChef->fecha ?>"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="city">Localidad:</label></td>
-                            <td><input type="text" name="city" id="city" value="<?php echo $editChef->localidad ?>"></td>
-                        </tr>
-                        <tr>
-                            <td><label for="province">Provincia:</label></td>
-                            <td>
-                                <select name="province" id="province">
-                                    <?php
-                                    echo $options;
-                                    ?>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td> <button type="submit" name="action" value="Actualizar"> Actualizar</button></td>                   
-                            <td> <button type="submit" name="action" value="Eliminar"> Eliminar</button></td>
-                            <td> <button type="submit" name="action" value="Cancelar"> Cancelar</button></td>
-                        </tr>
+                    <tr>
+                        <td> <label for="id">Código:</label></td>
+                        <td><input disabled type="number" name="id" id="id" value="<?php echo $editChef->id ?>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="name">Nombre:</label></td>
+                        <td><input type="text" name="name" id="name" value="<?php echo $editChef->nombre ?>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="surn">Apellidos:</label></td>
+                        <td><input type="text" name="surn[]" id="" value="<?php echo $editChef->apellido1 ?>"></td>
+                        <td><input type="text" name="surn[]" id="" value="<?php echo $editChef->apellido2 ?>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="alias">Nombre Artístico:</label></td>
+                        <td><input type="text" name="alias" id="alias" value="<?php echo $editChef->nombreArtistico ?>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="sex">Sexo:</label></td>
+                        <td>
+                            <select name="sex" id="sex">
+                                <option value="H" <?php echo compruebaOptions("H", $editChef->sexo) ?>>Hombre</option>
+                                <option value="M" <?php echo compruebaOptions("M", $editChef->sexo) ?>>Mujer</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="bdate">Feche de nacimiento:</label></td>
+                        <td><input type="date" name="bdate" id="bdate" value="<?php echo $editChef->fecha ?>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="city">Localidad:</label></td>
+                        <td><input type="text" name="city" id="city" value="<?php echo $editChef->localidad ?>"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="province">Provincia:</label></td>
+                        <td>
+                            <select name="province" id="province">
+                                <?php
+                                echo $options;
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> <button type="submit" name="action" value="Actualizar"> Actualizar</button></td>                   
+                        <td> <button type="submit" name="action" value="Eliminar"> Eliminar</button></td>
+                        <td> <button type="submit" name="action" value="Cancelar"> Cancelar</button></td>
+                    </tr>
 
-                    </table>
+                </table>
             </form>
-            
+
 
             <?php
         }
