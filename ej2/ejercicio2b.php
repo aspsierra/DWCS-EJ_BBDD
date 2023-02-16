@@ -76,17 +76,16 @@ if (!isset($_GET['idChef'])) {
     if (isset($_POST['action'])) {
         switch ($_POST['action']) {
             case 'Cancelar':
+
                 header('Location:ejercicio2b.php');
                 break;
-            case 'Actualizar':
 
-                var_dump($_POST);
-                var_dump($_GET);
+            case 'Actualizar':
                 $consActualizar = "UPDATE chef SET "
-                        . "nombre = :nombre, apellido1 = :apellido1, apellido2 = :apellido2"
+                        . "nombre = :nombre, apellido1 = :apellido1, apellido2 = :apellido2,"
                         . "nombreartistico = :alias, sexo = :sexo,"
-                        . "fecha_nacimiento = :fecha, localidad = :localidad"
-                        . "cod_provincia = :provincia*/. WHERE codigo = " . $_GET['idChef'];
+                        . "fecha_nacimiento = :fecha, localidad = :localidad,"
+                        . "cod_provincia = :provincia WHERE codigo = " . $_GET['idChef'];
 
                 $update = $pdo->prepare($consActualizar);
                 $update->bindValue(':nombre', $_POST['name'], PDO::PARAM_STR);
@@ -97,10 +96,15 @@ if (!isset($_GET['idChef'])) {
                 $update->bindValue(':fecha', $_POST['bdate'], PDO::PARAM_STR);
                 $update->bindValue(':localidad', $_POST['city'], PDO::PARAM_STR);
                 $update->bindValue(':provincia', $_POST['province'], PDO::PARAM_INT);
-
                 $resUpdate = $update->execute();
+                
+                if($resUpdate){
+                    header('Refresh:0');
+                } else{
+                    echo "Se produjo un error al actualizar";
+                }
 
-                header('refresh:ejercicio2b.php?idChef=' . $_GET['idChef']);
+                
 
                 unset($resUpdate);
                 break;
