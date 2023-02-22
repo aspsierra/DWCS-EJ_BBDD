@@ -1,0 +1,12 @@
+{
+    "dbName": "recetas",
+    "host": "localhost",
+    "userRoot": {
+        "name": "root",
+        "password": ""
+    },
+    "userPrueba":{
+        "name":"prueba",
+        "password": "1234"
+    }
+}

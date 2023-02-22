@@ -99,14 +99,13 @@ if (!isset($_GET['idChef'])) {
                 $resUpdate = $update->execute();
                 
                 if($resUpdate){
-                    header('Refresh:0');
+                    header('Refresh:4');
                 } else{
                     echo "Se produjo un error al actualizar";
                 }
-
-                
-
+          
                 unset($resUpdate);
+                unset($consActualizar);
                 break;
             case 'delete':
                 break;
